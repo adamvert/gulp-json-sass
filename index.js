@@ -6,7 +6,7 @@ var through = require('through'),
 
 // from http://stackoverflow.com/questions/17191265/legal-characters-for-sass-and-scss-variable-names
 var escapableCharactersRegex = /(["!#$%&\'()*+,.\/:;\s<=>?@\[\]^\{\}|~])/g;
-function replaceEscapableCharacters(str) { 
+function replaceEscapableCharacters(str) {
   return str.replace(escapableCharactersRegex, function(a,b) {
     return '\\' + b;
   });
@@ -63,7 +63,8 @@ module.exports = function(opt) {
     this.push(file);
   }
 
-  function loadVariablesRecursive(obj, path, cb) {
+  function loadVariablesRecursive(obj, path, cb, isMap) {
+    var isMap = isMap || false
     for (var key in obj) {
       if (obj.hasOwnProperty(key)) {
         var val = obj[key];
@@ -79,9 +80,13 @@ module.exports = function(opt) {
         }
 
         if (typeof val !== 'object') {
-          cb('$' + path + key + ': ' + val + opt.eol);
+          cb(isMap ? '  ' : '' + '$' + path + key + ': ' + val + isMap ? ',' : opt.eol);
         } else {
-          loadVariablesRecursive(val, path + key + opt.delim, cb);
+          cb('$' + key + ': (' );
+          loadVariablesRecursive(val, '', cb, true)
+          cb(')' + opt.eol)
+        }
+
         }
       }
     }
