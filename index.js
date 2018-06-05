@@ -86,8 +86,6 @@ module.exports = function(opt) {
           loadVariablesRecursive(val, '', cb, true)
           cb(')' + opt.eol)
         }
-
-        }
       }
     }
   }
