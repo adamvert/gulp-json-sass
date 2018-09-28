@@ -83,9 +83,7 @@ module.exports = function(opt) {
           cb(isMap ? '  ' : '' + '$' + path + key + ': ' + val + isMap ? ',' : opt.eol);
         } else {
           cb('$' + key + ': (' );
-          for (var k in val) {
-            cb('  ' + k + ': ' + val[k] + ',')
-          }
+          loadVariablesRecursive(val, '', cb, true)
           cb(')' + opt.eol)
         }
       }
