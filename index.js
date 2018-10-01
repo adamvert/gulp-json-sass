@@ -80,12 +80,13 @@ module.exports = function(opt) {
         }
 
         if (typeof val !== 'object') {
-          cb(isMap ? '  ' : '' + '$' + path + key + ': ' + val + isMap ? ',' : opt.eol);
+          cb((isMap ? '  ' : '' + '$') + path + key + ': ' + val + (isMap ? ',' : opt.eol));
         } else {
           cb('$' + key + ': (' );
           loadVariablesRecursive(val, '', cb, true)
           cb(')' + opt.eol)
         }
+
       }
     }
   }
